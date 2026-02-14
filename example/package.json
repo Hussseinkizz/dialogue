@@ -1,0 +1,9 @@
+{
+  "name": "dialogue-example",
+  "private": true,
+  "scripts": {
+    "dev:server": "cd server && bun run start",
+    "dev:client": "cd client && pnpm dev",
+    "install:all": "cd server && pnpm install && cd ../client && pnpm install"
+  }
+}

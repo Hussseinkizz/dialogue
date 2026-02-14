@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialogue Chat Example</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Login Section -->
+      <div id="login-section">
+        <h1>Dialogue Chat</h1>
+        <p>Enter your username to get started.</p>
+        <div class="login-form">
+          <input
+            type="text"
+            id="username"
+            placeholder="Enter your username"
+            autocomplete="off"
+          >
+          <button id="login-btn">Connect</button>
+        </div>
+      </div>
+
+      <!-- Room List Section (after login) -->
+      <div id="rooms-section">
+        <header>
+          <h2>Rooms</h2>
+          <span id="user-display"></span>
+        </header>
+
+        <div id="room-actions">
+          <button id="create-room-btn">+ Create Room</button>
+        </div>
+
+        <div id="room-list"></div>
+      </div>
+
+      <!-- Chat Section (when in a room) -->
+      <div id="chat-section">
+        <header>
+          <div class="header-left">
+            <button id="back-btn">&larr;</button>
+            <h2 id="room-title">Room</h2>
+          </div>
+          <div class="header-right">
+            <button id="alert-btn" title="Send alert to all users in this room">
+              ⚠ Alert
+            </button>
+            <button id="leave-btn">Leave</button>
+          </div>
+        </header>
+        <div id="messages"></div>
+        <form id="message-form">
+          <input
+            type="text"
+            id="message"
+            placeholder="Type a message..."
+            autocomplete="off"
+          >
+          <button type="submit">Send</button>
+        </form>
+      </div>
+
+      <!-- Create Room Modal -->
+      <div id="create-room-modal" class="modal">
+        <div class="modal-content">
+          <h3>Create New Room</h3>
+          <input
+            type="text"
+            id="new-room-id"
+            placeholder="Room ID (e.g., tech-talk)"
+          >
+          <input
+            type="text"
+            id="new-room-name"
+            placeholder="Room Name (e.g., Tech Talk)"
+          >
+          <div class="modal-actions">
+            <button id="cancel-create-btn" class="secondary">Cancel</button>
+            <button id="confirm-create-btn">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,81 @@
+{
+  "name": "dialogue-ts",
+  "version": "0.0.1",
+  "description": "An event-based realtime communication library based on Socket.IO, Hono, and Bun.",
+  "type": "module",
+  "main": "./dist/src/index.cjs",
+  "module": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/src/index.d.ts",
+        "default": "./dist/src/index.js"
+      },
+      "require": {
+        "types": "./dist/src/index.d.cts",
+        "default": "./dist/src/index.cjs"
+      }
+    },
+    "./client": {
+      "import": {
+        "types": "./dist/client/index.d.ts",
+        "default": "./dist/client/index.js"
+      },
+      "require": {
+        "types": "./dist/client/index.d.cts",
+        "default": "./dist/client/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "socket.io",
+    "websocket",
+    "real-time",
+    "hono",
+    "bun",
+    "typescript",
+    "events",
+    "slang-ts"
+  ],
+  "author": "Hussein Kizz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.3.13",
+    "@types/bun": "latest",
+    "husky": "^9.1.7",
+    "tsup": "^8.5.1",
+    "ultracite": "7.1.5",
+    "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "typescript": "^5",
+    "zod": "^3.0.0 || ^4.0.0"
+  },
+  "dependencies": {
+    "@socket.io/bun-engine": "^0.1.0",
+    "hono": "^4.11.9",
+    "nanoid": "^5.1.6",
+    "slang-ts": "^0.0.7",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
+  },
+  "scripts": {
+    "build": "tsup",
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "prepare": "husky",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "bun run build",
+    "export": "bun run fix && bun run test && bun run build"
+  }
+}

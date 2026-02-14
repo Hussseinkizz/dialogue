@@ -1,0 +1,476 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#app {
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
+  max-height: 700px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Login Section */
+#login-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+#login-section h1 {
+  font-size: 1.75rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+#login-section p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 280px;
+}
+
+.login-form input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.login-form input:focus {
+  border-color: #4a90d9;
+}
+
+.login-form button {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #4a90d9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.login-form button:hover:not(:disabled) {
+  background-color: #3a7bc8;
+}
+
+.login-form button:disabled {
+  background-color: #a0c4e8;
+  cursor: not-allowed;
+}
+
+/* Rooms Section */
+#rooms-section {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+}
+
+#rooms-section header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background-color: #4a90d9;
+  color: white;
+}
+
+#rooms-section header h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+#user-display {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+#room-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+#room-actions button {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#create-room-btn {
+  background-color: #4a90d9;
+  color: white;
+}
+
+#create-room-btn:hover {
+  background-color: #3a7bc8;
+}
+
+#alert-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+#alert-btn:hover {
+  background-color: #c0392b;
+}
+
+#room-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+.room-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin: 0.5rem;
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.room-item:hover {
+  border-color: #4a90d9;
+  background-color: #f8fafc;
+}
+
+.room-info h4 {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.room-info p {
+  font-size: 0.8125rem;
+  color: #888;
+}
+
+.room-meta {
+  font-size: 0.75rem;
+  color: #666;
+  text-align: right;
+}
+
+/* Chat Section */
+#chat-section {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+}
+
+#chat-section header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #4a90d9;
+  color: white;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#chat-section #alert-btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: white;
+  background-color: #e74c3c;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#chat-section #alert-btn:hover {
+  background-color: #c0392b;
+}
+
+#back-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+}
+
+#room-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#leave-btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#leave-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Messages Container */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background-color: #fafafa;
+}
+
+/* Message Bubbles */
+.message {
+  max-width: 80%;
+  padding: 0.625rem 0.875rem;
+  border-radius: 12px;
+  word-wrap: break-word;
+}
+
+.message .sender {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.message .text {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+/* Own messages - right aligned, blue */
+.message.self {
+  align-self: flex-end;
+  background-color: #4a90d9;
+  color: white;
+}
+
+.message.self .sender {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Others' messages - left aligned, gray */
+.message.other {
+  align-self: flex-start;
+  background-color: #e8e8e8;
+  color: #333;
+}
+
+.message.other .sender {
+  color: #666;
+}
+
+/* System messages - centered, muted */
+.message.system {
+  align-self: center;
+  background-color: transparent;
+  color: #888;
+  font-size: 0.8125rem;
+  font-style: italic;
+  padding: 0.375rem 0;
+}
+
+/* Alert messages - centered, red background */
+.message.alert {
+  align-self: center;
+  background-color: #fee2e2;
+  color: #dc2626;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border: 1px solid #fecaca;
+}
+
+/* Message Form */
+#message-form {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: white;
+  border-top: 1px solid #e8e8e8;
+}
+
+#message-form input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 24px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#message-form input:focus {
+  border-color: #4a90d9;
+}
+
+#message-form button {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: white;
+  background-color: #4a90d9;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#message-form button:hover {
+  background-color: #3a7bc8;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 320px;
+}
+
+.modal-content h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  outline: none;
+}
+
+.modal-content input:focus {
+  border-color: #4a90d9;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-actions button.secondary {
+  background-color: #e8e8e8;
+  color: #333;
+}
+
+.modal-actions button:not(.secondary) {
+  background-color: #4a90d9;
+  color: white;
+}
+
+/* Scrollbar styling */
+#messages::-webkit-scrollbar,
+#room-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+#messages::-webkit-scrollbar-track,
+#room-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#messages::-webkit-scrollbar-thumb,
+#room-list::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+#messages::-webkit-scrollbar-thumb:hover,
+#room-list::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
