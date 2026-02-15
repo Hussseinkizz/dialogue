@@ -4,6 +4,7 @@ import { pluginLlms } from '@rspress/plugin-llms';
 
 export default defineConfig({
   root: path.join(__dirname, 'docs'),
+  base: '/dialogue/',
   title: 'Dialogue',
   description: 'Event-based realtime communication library built on Socket.IO, Hono, and Bun',
   icon: '/rspress-icon.png',
