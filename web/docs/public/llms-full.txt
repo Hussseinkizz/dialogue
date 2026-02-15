@@ -1,5 +1,5 @@
 ---
-url: /guide/start/getting-started.md
+url: /dialogue/guide/start/getting-started.md
 ---
 
 
@@ -180,7 +180,7 @@ This is a minimal, focused view showing only application code. The Dialogue libr
 
 
 ---
-url: /guide/examples/chat-application.md
+url: /dialogue/guide/examples/chat-application.md
 ---
 
 
@@ -342,7 +342,7 @@ function createChatClient(url: string, userId: string, token: string) {
 
 
 ---
-url: /guide/examples/live-notifications.md
+url: /dialogue/guide/examples/live-notifications.md
 ---
 
 
@@ -445,7 +445,7 @@ app.post("/orders/:id/ship", async (c) => {
 
 
 ---
-url: /guide/examples/live-dashboard.md
+url: /dialogue/guide/examples/live-dashboard.md
 ---
 
 
@@ -534,7 +534,7 @@ async function checkAlerts(): Promise<void> {
 
 
 ---
-url: /guide/examples/multiplayer-game.md
+url: /dialogue/guide/examples/multiplayer-game.md
 ---
 
 
@@ -636,7 +636,7 @@ dialogue.on("game:match-1", PlayerAction, (msg) => {
 
 
 ---
-url: /guide/examples/iot-monitoring.md
+url: /dialogue/guide/examples/iot-monitoring.md
 ---
 
 
@@ -746,7 +746,7 @@ export function processSensorData(data: {
 
 
 ---
-url: /guide/examples/collaborative-editing.md
+url: /dialogue/guide/examples/collaborative-editing.md
 ---
 
 
@@ -833,7 +833,7 @@ export function broadcastChange(
 
 
 ---
-url: /guide/examples/event-persistence.md
+url: /dialogue/guide/examples/event-persistence.md
 ---
 
 
@@ -1066,7 +1066,7 @@ chatContainer.addEventListener("scroll", () => {
 
 
 ---
-url: /guide/api/configuration/index.md
+url: /dialogue/guide/api/configuration/index.md
 ---
 
 
@@ -1090,7 +1090,7 @@ Dialogue uses a config-first approach where all rooms and events are defined upf
 
 
 ---
-url: /guide/api/configuration/events.md
+url: /dialogue/guide/api/configuration/events.md
 ---
 
 
@@ -1165,7 +1165,7 @@ type OrderData = z.infer<typeof OrderUpdated.schema>;
 
 
 ---
-url: /guide/api/configuration/rooms.md
+url: /dialogue/guide/api/configuration/rooms.md
 ---
 
 
@@ -1293,7 +1293,7 @@ const dialogue = createDialogue({
 
 
 ---
-url: /guide/api/configuration/dialogue-config.md
+url: /dialogue/guide/api/configuration/dialogue-config.md
 ---
 
 
@@ -1443,7 +1443,7 @@ beforeEach: ({ context, roomId, message }) => {
 
 
 ---
-url: /guide/api/configuration/hooks.md
+url: /dialogue/guide/api/configuration/hooks.md
 ---
 
 
@@ -1765,7 +1765,7 @@ afterEach: (params: {
 
 
 ---
-url: /guide/api/configuration/authentication.md
+url: /dialogue/guide/api/configuration/authentication.md
 ---
 
 
@@ -1824,7 +1824,7 @@ const dialogue = createDialogue({
 
 
 ---
-url: /guide/api/configuration/types.md
+url: /dialogue/guide/api/configuration/types.md
 ---
 
 
@@ -1926,7 +1926,7 @@ interface JwtClaims {
 
 
 ---
-url: /guide/api/backend-api.md
+url: /dialogue/guide/api/backend-api.md
 ---
 
 
@@ -2895,7 +2895,7 @@ const dialogue = createDialogue({
 
 
 ---
-url: /guide/api/client-api.md
+url: /dialogue/guide/api/client-api.md
 ---
 
 
@@ -3667,7 +3667,7 @@ function ChatRoom({ roomId }: { roomId: string }) {
 
 
 ---
-url: /guide/others/architecture.md
+url: /dialogue/guide/others/architecture.md
 ---
 
 
@@ -4275,7 +4275,7 @@ Planned support for alternative delivery channels:
 
 
 ---
-url: /guide/others/llms-txt.md
+url: /dialogue/guide/others/llms-txt.md
 ---
 
 
@@ -4286,7 +4286,7 @@ url: /guide/others/llms-txt.md
 
 
 ---
-url: /guide/others/llms-full-txt.md
+url: /dialogue/guide/others/llms-full-txt.md
 ---
 
 
@@ -4297,7 +4297,7 @@ url: /guide/others/llms-full-txt.md
 
 
 ---
-url: /index.md
+url: /dialogue/index.md
 ---
 
 

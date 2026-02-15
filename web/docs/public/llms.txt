@@ -4,23 +4,23 @@
 
 ## Guide
 
-- [Getting Started](/guide/start/getting-started.md): Installation, basic setup, and your first real-time application using Dialogue
-- [Chat Application](/guide/examples/chat-application.md): A basic chat application with messages, typing indicators, and user presence
-- [Live Notifications](/guide/examples/live-notifications.md): A notification system that delivers real-time alerts to users
-- [Live Dashboard](/guide/examples/live-dashboard.md): A real-time dashboard showing live metrics and updates
-- [Multiplayer Game](/guide/examples/multiplayer-game.md): A simple multiplayer game with player positions and game state
-- [IoT Monitoring](/guide/examples/iot-monitoring.md): Real-time monitoring of IoT devices with sensor data
-- [Collaborative Editing](/guide/examples/collaborative-editing.md): Real-time collaborative editing with cursor positions and document changes
-- [Event Persistence](/guide/examples/event-persistence.md): A chat application with persistent history using SQLite/PostgreSQL and the onCleanup/onLoad hooks
-- [Configuration Guide](/guide/api/configuration/index.md): All configuration options for Dialogue, including event definitions, room configurations, and server settings
-- [Event Definitions](/guide/api/configuration/events.md): Define events with schema validation using Zod
-- [Room Configuration](/guide/api/configuration/rooms.md): Configure rooms, capacity limits, and default subscriptions
-- [Dialogue Configuration](/guide/api/configuration/dialogue-config.md): Main server configuration, CORS, and options
-- [Lifecycle Hooks](/guide/api/configuration/hooks.md): Client, room, socket, and event lifecycle hooks
-- [Authentication](/guide/api/configuration/authentication.md): Client authentication and JWT setup
-- [TypeScript Types](/guide/api/configuration/types.md): Type definitions and interfaces
-- [Backend API Reference](/guide/api/backend-api.md): Complete backend API for Dialogue, including the Dialogue instance, rooms, and connected clients
-- [Client API Reference](/guide/api/client-api.md): Client SDK for connecting to a Dialogue server from frontend applications
-- [Architecture](/guide/others/architecture.md): Internal architecture, design decisions, and component interactions of Dialogue
-- [LLMs](/guide/others/llms-txt.md): View LLMs.txt
-- [LLMs Full](/guide/others/llms-full-txt.md): View LLMs Full
+- [Getting Started](/dialogue/guide/start/getting-started.md): Installation, basic setup, and your first real-time application using Dialogue
+- [Chat Application](/dialogue/guide/examples/chat-application.md): A basic chat application with messages, typing indicators, and user presence
+- [Live Notifications](/dialogue/guide/examples/live-notifications.md): A notification system that delivers real-time alerts to users
+- [Live Dashboard](/dialogue/guide/examples/live-dashboard.md): A real-time dashboard showing live metrics and updates
+- [Multiplayer Game](/dialogue/guide/examples/multiplayer-game.md): A simple multiplayer game with player positions and game state
+- [IoT Monitoring](/dialogue/guide/examples/iot-monitoring.md): Real-time monitoring of IoT devices with sensor data
+- [Collaborative Editing](/dialogue/guide/examples/collaborative-editing.md): Real-time collaborative editing with cursor positions and document changes
+- [Event Persistence](/dialogue/guide/examples/event-persistence.md): A chat application with persistent history using SQLite/PostgreSQL and the onCleanup/onLoad hooks
+- [Configuration Guide](/dialogue/guide/api/configuration/index.md): All configuration options for Dialogue, including event definitions, room configurations, and server settings
+- [Event Definitions](/dialogue/guide/api/configuration/events.md): Define events with schema validation using Zod
+- [Room Configuration](/dialogue/guide/api/configuration/rooms.md): Configure rooms, capacity limits, and default subscriptions
+- [Dialogue Configuration](/dialogue/guide/api/configuration/dialogue-config.md): Main server configuration, CORS, and options
+- [Lifecycle Hooks](/dialogue/guide/api/configuration/hooks.md): Client, room, socket, and event lifecycle hooks
+- [Authentication](/dialogue/guide/api/configuration/authentication.md): Client authentication and JWT setup
+- [TypeScript Types](/dialogue/guide/api/configuration/types.md): Type definitions and interfaces
+- [Backend API Reference](/dialogue/guide/api/backend-api.md): Complete backend API for Dialogue, including the Dialogue instance, rooms, and connected clients
+- [Client API Reference](/dialogue/guide/api/client-api.md): Client SDK for connecting to a Dialogue server from frontend applications
+- [Architecture](/dialogue/guide/others/architecture.md): Internal architecture, design decisions, and component interactions of Dialogue
+- [LLMs](/dialogue/guide/others/llms-txt.md): View LLMs.txt
+- [LLMs Full](/dialogue/guide/others/llms-full-txt.md): View LLMs Full
