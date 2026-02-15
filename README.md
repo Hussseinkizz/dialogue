@@ -4,6 +4,12 @@ An event-based realtime communication library based on Socket.IO, Hono, and Bun.
 
 Dialogue is basically asking how do we scale to different real time use cases using same mental model and api.
 
+## 📚 Documentation
+
+**[📖 View Full Documentation →](https://hussseinkizz.github.io/dialogue/)**
+
+Complete guides, API references, and examples available at: **https://hussseinkizz.github.io/dialogue/**
+
 ## Prerequisites
 
 - [Bun](https://bun.sh/) - Fast all-in-one JavaScript runtime (required for server)
@@ -413,12 +419,15 @@ const recentMessages = await room.history("message", 0, 20); // Last 20 messages
 
 ## Documentation
 
-- [Getting Started](./docs/getting-started.md) - Installation and basic setup
-- [Configuration](./docs/configuration.md) - Detailed configuration options
-- [Backend API](./docs/backend-api.md) - Server-side API reference
-- [Client API](./docs/client-api.md) - Client SDK reference
-- [Examples](./docs/examples.md) - Complete use-case implementations
-- [Architecture](./docs/architecture.md) - Internal design and patterns
+For complete documentation, visit **[hussseinkizz.github.io/dialogue](https://hussseinkizz.github.io/dialogue/)**
+
+Quick links:
+- [Getting Started](https://hussseinkizz.github.io/dialogue/guide/start/getting-started) - Installation and basic setup
+- [Configuration Guide](https://hussseinkizz.github.io/dialogue/guide/api/configuration/) - Detailed configuration options
+- [Backend API](https://hussseinkizz.github.io/dialogue/guide/api/backend-api) - Server-side API reference
+- [Client API](https://hussseinkizz.github.io/dialogue/guide/api/client-api) - Client SDK reference
+- [Examples](https://hussseinkizz.github.io/dialogue/guide/examples/chat-application) - Complete use-case implementations
+- [Architecture](https://hussseinkizz.github.io/dialogue/guide/others/architecture) - Internal design and patterns
 
 ## Example App
 
