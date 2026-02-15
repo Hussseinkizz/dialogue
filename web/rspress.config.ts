@@ -6,7 +6,7 @@ export default defineConfig({
   title: 'Dialogue',
   description: 'Event-based realtime communication library built on Socket.IO, Hono, and Bun',
   icon: '/rspress-icon.png',
-  logoText: 'Dialogue',
+  logoText: '🟢 Dialogue',
   themeConfig: {
     socialLinks: [
       {
