@@ -91,22 +91,26 @@ export function validateEventData<T>(
 }
 
 /**
- * Checks if an event is allowed in a room based on the room's event list.
- * If the room has no events defined (empty array), all events are allowed.
+ * Checks if an event is allowed in a room based on its event definitions.
+ * - Empty array: No events allowed (reject all)
+ * - Wildcard "*": All events allowed (accept all)
+ * - Specific events: Only listed events allowed
  *
  * @param eventName - Name of the event to check
  * @param allowedEvents - List of allowed events for the room
- * @returns True if event is allowed
+ * @returns True if event is allowed (explicit match or wildcard)
  */
 export function isEventAllowed(
   eventName: string,
   allowedEvents: EventDefinition<unknown>[]
 ): boolean {
+  // Empty array means no events allowed
   if (allowedEvents.length === 0) {
-    return true;
+    return false;
   }
 
-  return allowedEvents.some((e) => e.name === eventName);
+  // Check for wildcard or specific event match
+  return allowedEvents.some((e) => e.name === "*" || e.name === eventName);
 }
 
 /**

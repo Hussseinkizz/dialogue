@@ -287,6 +287,8 @@ export interface EventMessage<T = unknown> {
   /** User ID of sender */
   from: string;
   timestamp: number;
+  /** Optional metadata for flexible additional context */
+  meta?: Record<string, unknown>;
 }
 
 /**
@@ -310,7 +312,8 @@ export interface Room {
   trigger<T>(
     event: EventDefinition<T>,
     data: T,
-    from?: string
+    from?: string,
+    meta?: Record<string, unknown>
   ): Result<void, string>;
 
   /**
@@ -432,7 +435,8 @@ export interface Dialogue {
     roomId: string,
     event: EventDefinition<T>,
     data: T,
-    from?: string
+    from?: string,
+    meta?: Record<string, unknown>
   ): Result<void, string>;
 
   /**

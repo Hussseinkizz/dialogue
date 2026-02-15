@@ -1,17 +1,22 @@
 [
   {
-    "type": "file",
-    "name": "getting-started",
+    "type": "dir-section-header",
+    "name": "start",
     "label": "Getting Started"
   },
   {
-    "type": "file",
-    "name": "configuration",
-    "label": "Configuration"
+    "type": "dir-section-header",
+    "name": "examples",
+    "label": "Examples"
   },
   {
-    "type": "file",
-    "name": "architecture",
-    "label": "Architecture"
+    "type": "dir-section-header",
+    "name": "api",
+    "label": "API Reference"
+  },
+  {
+    "type": "dir-section-header",
+    "name": "others",
+    "label": "Others"
   }
 ]

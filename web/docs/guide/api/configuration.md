@@ -1,8 +1,9 @@
-# Configuration Guide
+---
+title: Configuration Guide
+description: All configuration options for Dialogue, including event definitions, room configurations, and server settings
+---
 
-**Version:** 1.0  
-**Date:** February 12, 2026  
-**Author:** Hussein Kizz
+# Configuration Guide
 
 This guide covers all configuration options for Dialogue, including event definitions, room configurations, and server settings.
 
@@ -140,20 +141,52 @@ const dialogue = createDialogue({
 });
 ```
 
-### 3.5 Open Rooms
+### 3.5 Event Control Patterns
 
-Allow any event by passing an empty events array:
+**Accept All Events (Wildcard):**
+
+To create a room that accepts any event type, use the wildcard `"*"`:
 
 ```typescript
 const dialogue = createDialogue({
   rooms: {
     sandbox: {
       name: "Sandbox",
-      events: [], // Any event allowed
+      events: [{ name: '*' }],  // Accepts any event name
+      defaultSubscriptions: ['*']  // Subscribe to all events
     },
   },
 });
 ```
+
+**Reject All Events (Empty Array):**
+
+To create a room that rejects all trigger attempts (listen-only or system-controlled):
+
+```typescript
+const dialogue = createDialogue({
+  rooms: {
+    readonly: {
+      name: "Read-Only Notifications",
+      events: [],  // No events can be triggered by clients
+      // Server can still push via dialogue.trigger() if needed
+    },
+  },
+});
+```
+
+**How it works:**
+- `events: []` - No events allowed (all triggers rejected)
+- `events: [{ name: '*' }]` - All events allowed (no validation)
+- `events: [specificEvent1, specificEvent2]` - Only listed events allowed
+- `defaultSubscriptions: ['*']` - Clients auto-subscribe to all events when joining
+
+**Use cases:**
+- **Wildcard (`*`)**: Chat rooms, debug channels, flexible communication
+- **Empty array (`[]`)**: Read-only rooms, server-only broadcasting
+- **Specific events**: Most production use cases with validated schemas
+
+**Warning:** Wildcard rooms bypass event validation. Use with caution in production.
 
 ## 4. Dialogue Configuration
 
@@ -732,7 +765,4 @@ interface JwtClaims {
   [key: string]: unknown;  // Additional custom claims
 }
 ```
-
-**Author:** [Hussein Kizz](https://github.com/Hussseinkizz)
-
 *This documentation reflects the current implementation and is subject to evolution. Contributions and feedback are welcome.*

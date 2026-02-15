@@ -53,11 +53,16 @@ export function createRoomContext(
     roomId,
     roomName,
 
-    trigger<T>(eventName: string, data: T): void {
+    trigger<T>(
+      eventName: string,
+      data: T,
+      meta?: Record<string, unknown>
+    ): void {
       socket.emit("dialogue:trigger", {
         roomId,
         event: eventName,
         data,
+        ...(meta && { meta }),
       });
     },
 

@@ -561,7 +561,12 @@ export function setupServer(
 
     socket.on(
       "dialogue:trigger",
-      (data: { roomId: string; event: string; data: unknown }) => {
+      (data: {
+        roomId: string;
+        event: string;
+        data: unknown;
+        meta?: Record<string, unknown>;
+      }) => {
         if (
           typeof data?.roomId !== "string" ||
           typeof data?.event !== "string"
@@ -579,7 +584,9 @@ export function setupServer(
         }
 
         const eventDef = room.events.find((e) => e.name === data.event);
-        if (!eventDef && room.events.length > 0) {
+        const hasWildcard = room.events.some((e) => e.name === "*");
+
+        if (!(eventDef || hasWildcard)) {
           socket.emit("dialogue:error", {
             code: "EVENT_NOT_ALLOWED",
             message: `Event '${data.event}' is not allowed in room '${data.roomId}'`,
@@ -588,7 +595,12 @@ export function setupServer(
         }
 
         const triggerEvent = eventDef ?? { name: data.event };
-        const result = room.trigger(triggerEvent, data.data, client.userId);
+        const result = room.trigger(
+          triggerEvent,
+          data.data,
+          client.userId,
+          data.meta
+        );
 
         if (result.isErr) {
           socket.emit("dialogue:error", {

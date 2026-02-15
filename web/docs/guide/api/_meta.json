@@ -1,6 +1,11 @@
 [
   {
     "type": "file",
+    "name": "configuration",
+    "label": "Configuration"
+  },
+  {
+    "type": "file",
     "name": "backend-api",
     "label": "Backend API"
   },

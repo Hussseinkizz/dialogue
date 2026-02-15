@@ -110,7 +110,8 @@ export function createRoom(
     trigger<T>(
       event: EventDefinition<T>,
       data: T,
-      from?: string
+      from?: string,
+      meta?: Record<string, unknown>
     ): Result<void, string> {
       if (!isEventAllowed(event.name, config.events)) {
         const errorMsg = `Event '${event.name}' is not allowed in room '${id}'`;
@@ -144,6 +145,7 @@ export function createRoom(
         data: validation.value as T,
         from: from ?? "system",
         timestamp: Date.now(),
+        ...(meta && { meta }),
       };
 
       // Run beforeEach hook — can block or transform the message

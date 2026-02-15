@@ -87,7 +87,8 @@ export function createDialogue(config: DialogueConfig): Dialogue {
       roomId: string,
       event: EventDefinition<T>,
       data: T,
-      from?: string
+      from?: string,
+      meta?: Record<string, unknown>
     ): Result<void, string> {
       const room = roomManager.get(roomId);
       if (!room) {
@@ -100,7 +101,7 @@ export function createDialogue(config: DialogueConfig): Dialogue {
         return Err(errorMsg);
       }
 
-      return room.trigger(event, data, from);
+      return room.trigger(event, data, from, meta);
     },
 
     on<T>(

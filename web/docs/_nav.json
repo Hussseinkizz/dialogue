@@ -1,22 +1,7 @@
 [
   {
     "text": "Guide",
-    "link": "/guide/getting-started",
+    "link": "/guide/start/getting-started",
     "activeMatch": "/guide/"
-  },
-  {
-    "text": "API Reference",
-    "link": "/api/backend-api",
-    "activeMatch": "/api/"
-  },
-  {
-    "text": "Examples",
-    "link": "/examples/",
-    "activeMatch": "/examples/"
-  },
-  {
-    "text": "Roadmap",
-    "link": "/roadmap",
-    "activeMatch": "/roadmap"
   }
 ]

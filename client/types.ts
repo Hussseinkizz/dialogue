@@ -62,6 +62,7 @@ export interface EventMessage<T = unknown> {
   data: T;
   from: string;
   timestamp: number;
+  meta?: Record<string, unknown>;
 }
 
 /**
@@ -120,8 +121,9 @@ export interface RoomContext {
    * Trigger an event in this room
    * @param eventName - Event name to trigger
    * @param data - Event payload data
+   * @param meta - Optional metadata for flexible additional context
    */
-  trigger<T>(eventName: string, data: T): void;
+  trigger<T>(eventName: string, data: T, meta?: Record<string, unknown>): void;
 
   /**
    * Listen for a specific event

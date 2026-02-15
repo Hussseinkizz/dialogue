@@ -109,7 +109,7 @@ chat.trigger("message", {
             and Bun
           </p>
           <div className="hero-actions">
-            <a href="/guide/getting-started" className="btn btn-primary">
+            <a href="/guide/start/getting-started" className="btn btn-primary">
               Get Started
             </a>
             <a
@@ -222,7 +222,7 @@ chat.trigger("message", {
               <code>typing</code> event to show when users are composing
               messages. All events are type-safe and automatically validated.
             </p>
-            <a href="/examples" className="use-case-link">
+            <a href="/guide/examples/chat-application" className="use-case-link">
               View chat examples →
             </a>
           </div>
@@ -235,7 +235,7 @@ chat.trigger("message", {
               dashboard views. Type inference ensures your frontend receives
               correctly-typed data from the server.
             </p>
-            <a href="/examples" className="use-case-link">
+            <a href="/guide/examples/live-dashboard" className="use-case-link">
               View dashboard examples →
             </a>
           </div>
@@ -247,7 +247,7 @@ chat.trigger("message", {
               Dialogue's event system handles real-time broadcasting to all
               participants in a room while Zod validates each action's payload.
             </p>
-            <a href="/examples" className="use-case-link">
+            <a href="/guide/examples/collaborative-editing" className="use-case-link">
               View collaboration examples →
             </a>
           </div>
@@ -260,7 +260,7 @@ chat.trigger("message", {
               validates player inputs server-side, preventing cheating and
               ensuring game state consistency.
             </p>
-            <a href="/examples" className="use-case-link">
+            <a href="/guide/examples/multiplayer-game" className="use-case-link">
               View gaming examples →
             </a>
           </div>

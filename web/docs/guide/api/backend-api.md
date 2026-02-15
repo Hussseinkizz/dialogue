@@ -93,6 +93,55 @@ app.post("/webhooks/payment", async (c) => {
 });
 ```
 
+## EventMessage Structure
+
+All events are wrapped in a standardized `EventMessage` envelope. This structure is enforced by Dialogue and **not customizable** by developers (except for the `data` payload).
+
+```typescript
+interface EventMessage<T = unknown> {
+  event: string;      // Event name
+  roomId: string;     // Room ID where event occurred
+  data: T;            // Your custom payload (validated by schema)
+  from: string;       // User ID of sender (or "system")
+  timestamp: number;  // Unix timestamp (milliseconds)
+  meta?: Record<string, unknown>;  // Optional flexible metadata
+}
+```
+
+### The `meta` Field
+
+The `meta` field provides a flexible way to add contextual information without changing your event schemas:
+
+```typescript
+// Example: Add request context
+dialogue.trigger('chat', chatMessage, {
+  event: 'message',
+  data: { text: 'Hello world' },
+  from: 'user-123',
+  timestamp: Date.now(),
+  meta: {
+    ip: '192.168.1.1',
+    userAgent: 'Mozilla/5.0...',
+    correlationId: 'abc-123'
+  }
+});
+
+// Example: Add permission context
+room.trigger(updateEvent, data, userId, {
+  permissions: ['admin', 'write'],
+  sessionId: 'xyz-789'
+});
+```
+
+**Use cases:**
+- Request metadata (IP, user agent, trace IDs)
+- Permission/authorization context
+- A/B test variants
+- Feature flags
+- Debug information
+
+**Important:** `meta` is optional and has no schema validation - use responsibly.
+
 ### 2.4 dialogue.on()
 
 Subscribes to events for backend side-effects like logging, persistence, or triggering other actions.
@@ -241,7 +290,9 @@ console.log(`Created room: ${room.name}`);
 **Best Practices:**
 
 - **Always set `defaultSubscriptions`** for rooms with known events to ensure clients receive messages immediately upon joining
-- For rooms with dynamic/unknown events (empty `events` array), clients should call `room.subscribeAll()` or `room.subscribe(eventName)` after joining
+- Use explicit event names for most subscriptions: `defaultSubscriptions: ["message", "userJoined"]`
+- Use wildcard `"*"` sparingly (debugging, logging, analytics): `events: [{ name: "*" }]`
+- Use empty array `[]` for read-only/server-only rooms where clients can't trigger events
 - Server-side `defaultSubscriptions` provides convenience but doesn't replace explicit client-side subscription when needed
 
 **Note:** Creating a room broadcasts a `dialogue:roomCreated` event to all connected clients.

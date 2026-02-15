@@ -425,8 +425,33 @@ interface EventMessage<T> {
   data: T;
   from: string;
   timestamp: number;
+  meta?: Record<string, unknown>;
 }
 ```
+
+### Meta Field
+
+The optional `meta` field can contain arbitrary contextual data:
+
+```typescript
+room.trigger('action', { type: 'click' }, {
+  sessionId: 'abc-123',
+  variant: 'A',
+  timestamp: Date.now()
+});
+
+// Receive meta in handlers
+room.on('action', (msg) => {
+  console.log(msg.data);      // { type: 'click' }
+  console.log(msg.meta);      // { sessionId: '...', variant: 'A', ... }
+});
+```
+
+**Common use cases:**
+- Analytics tracking (session IDs, A/B variants)
+- Request tracing (correlation IDs)
+- Debug information
+- Client-side state hints
 
 **Example:**
 
@@ -483,7 +508,7 @@ room.subscribe("typing");
 
 ### 4.6 room.subscribeAll()
 
-Subscribes to all events in the room. This is useful when joining rooms with dynamic or unknown event types.
+Subscribe to **all events** in the room using the wildcard pattern:
 
 **Signature:**
 
@@ -498,12 +523,25 @@ const room = await client.join("project-123");
 
 // Subscribe to all events in this room
 room.subscribeAll();
+// Internally calls: room.subscribe('*')
 
 // Now set up handlers
 room.on("message", (msg) => {
   console.log(msg.data);
 });
 ```
+
+This subscribes to every event type in the room, including:
+- Events defined in room config
+- Dynamic events (if room uses wildcard)
+- Future events added to the room
+
+**Use cases:**
+- Logging/debugging during development
+- Analytics collection
+- Admin dashboards showing all activity
+
+**Performance note:** Only use when you genuinely need all events. Specific subscriptions are more efficient.
 
 **Note:** If the room has `defaultSubscriptions` configured on the server, clients are automatically subscribed to those events when joining. Use `subscribeAll()` for rooms without default subscriptions or when you need to ensure you receive all events.
 

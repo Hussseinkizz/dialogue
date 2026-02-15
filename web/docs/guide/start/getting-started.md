@@ -1,8 +1,9 @@
-# Getting Started with Dialogue
+---
+title: Getting Started
+description: Installation, basic setup, and your first real-time application using Dialogue
+---
 
-**Version:** 1.0  
-**Date:** February 12, 2026  
-**Author:** Hussein Kizz
+# Getting Started with Dialogue
 
 This guide covers installation, basic setup, and your first real-time application using Dialogue.
 
@@ -12,7 +13,7 @@ Dialogue is an event-based realtime communication library built on Socket.IO, Ho
 
 ### 1.1 Key Features
 
-- **Config-first**: Define all rooms and events upfront in one configuration file
+- **Config-first with dynamic rooms**: Define common rooms upfront, create others at runtime
 - **Event-centric**: Events are first-class citizens with optional Zod schema validation
 - **Type-safe**: Full TypeScript support with inferred types from schemas
 - **Bounded rooms**: Optional `maxSize` for predictable scaling
@@ -75,6 +76,24 @@ export const dialogue = createDialogue({
 });
 ```
 
+### Dynamic Room Creation
+
+While config-first is recommended, you can also create rooms dynamically at runtime:
+
+```typescript
+// Create room on-demand
+dialogue.createRoom({
+  id: `game-${gameId}`,
+  name: 'Game Session',
+  events: [
+    { name: 'move', schema: z.object({ x: z.number(), y: z.number() }) },
+    { name: 'chat', schema: z.object({ message: z.string() }) }
+  ]
+});
+```
+
+**Recommendation:** Use predefined rooms for ~80% of your use cases (known room types), and dynamic creation for ~20% (user-generated content, temporary sessions).
+
 ### 3.2 Start the Server
 
 ```typescript
@@ -134,35 +153,26 @@ chat.trigger("message", {
 
 ## 4. Project Structure
 
-A typical Dialogue project structure:
+Here's the recommended structure for a Dialogue application:
 
 ```
 my-app/
-├── dialogue.config.ts    # Events and rooms configuration
-├── server.ts             # Server entry point
-├── dialogue/             # Dialogue library (backend)
-│   ├── index.ts
-│   ├── types.ts
-│   ├── define-event.ts
-│   ├── room.ts
-│   ├── client-handler.ts
-│   ├── create-dialogue.ts
-│   └── server.ts
-├── client/               # Client SDK (frontend)
-│   ├── index.ts
-│   ├── types.ts
-│   ├── dialogue-client.ts
-│   └── room-context.ts
+├── server/
+│   ├── index.ts          # Dialogue server setup
+│   └── rooms.ts          # Room configurations
+├── client/
+│   ├── App.tsx           # React app (or your framework)
+│   └── useDialogue.ts    # Client hooks
 └── package.json
 ```
 
+This is a minimal, focused view showing only application code. The Dialogue library itself is installed as dependencies and doesn't appear in your project structure.
+
 ## 5. Next Steps
 
-- Read the [Configuration Guide](./configuration.md) for detailed configuration options
-- Explore the [Backend API](./backend-api.md) for server-side features
-- Learn about the [Client API](./client-api.md) for frontend integration
-- See [Examples](./examples.md) for complete use-case implementations
-
-**Author:** [Hussein Kizz](https://github.com/Hussseinkizz)
+- Read the [Configuration Guide](/guide/api/configuration) for detailed configuration options
+- Explore the [Backend API](/guide/api/backend-api) for server-side features
+- Learn about the [Client API](/guide/api/client-api) for frontend integration
+- See [Examples](/guide/examples/chat-application) for complete use-case implementations
 
 *This documentation reflects the current implementation and is subject to evolution. Contributions and feedback are welcome.*

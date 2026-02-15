@@ -1,8 +1,9 @@
-# Dialogue Architecture
+---
+title: Architecture
+description: Internal architecture, design decisions, and component interactions of Dialogue
+---
 
-**Version:** 1.0  
-**Date:** February 12, 2026  
-**Author:** Hussein Kizz
+# Dialogue Architecture
 
 This document describes the internal architecture, design decisions, and component interactions of the Dialogue real-time communication library.
 
@@ -276,16 +277,84 @@ interface EventMessage<T> {
 
 ## 6. Design Decisions
 
-### 6.1 Why Config-First?
+### 6.1 Config-First with Dynamic Creation
 
-**Problem**: Dynamic room creation leads to unpredictable behavior, resource leaks, and security concerns.
+Dialogue is designed with a **config-first philosophy** while supporting dynamic room creation for flexibility.
 
-**Solution**: Define all rooms upfront in configuration. This provides:
+#### Recommended Approach (80/20 Rule)
 
-- Type safety at compile time
-- Predictable resource allocation
-- Easier security auditing
-- Simpler mental model
+**80% Predefined Rooms** (config-first):
+```typescript
+const dialogue = createDialogue({
+  rooms: [
+    { id: 'lobby', name: 'Main Lobby', events: [...] },
+    { id: 'notifications', name: 'Notifications', events: [...] },
+    { id: 'support', name: 'Support Chat', events: [...] }
+  ]
+});
+```
+
+**Benefits:**
+- Type safety and validation at startup
+- Clear system architecture
+- Predictable resource usage
+- Better documentation
+
+**20% Dynamic Rooms** (runtime creation):
+```typescript
+// User creates a game room
+dialogue.createRoom({
+  id: `game-${gameId}`,
+  name: `Game ${gameId}`,
+  events: gameEvents
+});
+
+// Clean up when done
+dialogue.deleteRoom(`game-${gameId}`);
+```
+
+**Use for:**
+- User-generated content (custom game rooms, DMs)
+- Temporary sessions (video calls, screen shares)
+- Per-entity rooms (document editing, ticket threads)
+
+#### Hybrid Example
+
+```typescript
+// Predefined: System-wide rooms
+const systemRooms = [
+  { id: 'global-chat', name: 'Chat', events: [chatEvent] },
+  { id: 'notifications', name: 'Notifications', events: [notifEvent] }
+];
+
+const dialogue = createDialogue({ rooms: systemRooms });
+
+// Dynamic: User-specific rooms
+app.post('/games', async (c) => {
+  const gameId = nanoid();
+  
+  dialogue.createRoom({
+    id: `game-${gameId}`,
+    name: 'Game Session',
+    events: [moveEvent, scoreEvent],
+    maxSize: 4
+  });
+  
+  return c.json({ gameId });
+});
+```
+
+#### When to Use Each
+
+| Use Case | Approach | Example |
+|----------|----------|---------|
+| System-wide features | Predefined | Notifications, global chat |
+| Known room types | Predefined | Support channels, lobbies |
+| User-generated | Dynamic | Private DMs, custom games |
+| Temporary sessions | Dynamic | Video calls, collaborations |
+| Per-entity rooms | Dynamic | Document editing, tickets |
+
+**Key principle:** If you know the room type at build time, define it in config. If it's created by user actions, create it dynamically.
 
 ### 6.2 Why Event-Centric?
 
@@ -533,7 +602,4 @@ Planned support for alternative delivery channels:
 - **SSE**: Server-sent events for one-way server to client
 - **Web Push**: Push notifications via FCM/APNS
 - **HTTP Polling**: For environments without WebSocket support
-
-**Author:** [Hussein Kizz](https://github.com/Hussseinkizz)
-
 *This specification reflects the current implementation and is subject to evolution. Contributions and feedback are welcome.*

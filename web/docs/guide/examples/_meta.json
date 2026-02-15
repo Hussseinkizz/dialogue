@@ -1,0 +1,37 @@
+[
+  {
+    "type": "file",
+    "name": "chat-application",
+    "label": "Chat Application"
+  },
+  {
+    "type": "file",
+    "name": "live-notifications",
+    "label": "Live Notifications"
+  },
+  {
+    "type": "file",
+    "name": "live-dashboard",
+    "label": "Live Dashboard"
+  },
+  {
+    "type": "file",
+    "name": "multiplayer-game",
+    "label": "Multiplayer Game"
+  },
+  {
+    "type": "file",
+    "name": "iot-monitoring",
+    "label": "IoT Monitoring"
+  },
+  {
+    "type": "file",
+    "name": "collaborative-editing",
+    "label": "Collaborative Editing"
+  },
+  {
+    "type": "file",
+    "name": "event-persistence",
+    "label": "Event Persistence"
+  }
+]
