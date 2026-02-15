@@ -10,6 +10,7 @@
       },
       "devDependencies": {
         "@biomejs/biome": "2.3.8",
+        "@rspress/plugin-llms": "^2.0.3",
         "@types/node": "^22.8.1",
         "@types/react": "^19.2.13",
         "@types/react-dom": "^19.2.3",
@@ -82,6 +83,8 @@
     "@rspack/plugin-react-refresh": ["@rspack/plugin-react-refresh@1.6.1", "", { "dependencies": { "error-stack-parser": "^2.1.4", "html-entities": "^2.6.0" }, "peerDependencies": { "react-refresh": ">=0.10.0 <1.0.0", "webpack-hot-middleware": "2.x" }, "optionalPeers": ["webpack-hot-middleware"] }, "sha512-eqqW5645VG3CzGzFgNg5HqNdHVXY+567PGjtDhhrM8t67caxmsSzRmT5qfoEIfBcGgFkH9vEg7kzXwmCYQdQDw=="],
 
     "@rspress/core": ["@rspress/core@2.0.3", "", { "dependencies": { "@mdx-js/mdx": "^3.1.1", "@mdx-js/react": "^3.1.1", "@rsbuild/core": "2.0.0-beta.3", "@rsbuild/plugin-react": "~1.4.5", "@rspress/shared": "2.0.3", "@shikijs/rehype": "^3.21.0", "@types/unist": "^3.0.3", "@unhead/react": "^2.1.4", "body-scroll-lock": "4.0.0-beta.0", "cac": "^6.7.14", "chokidar": "^3.6.0", "clsx": "2.1.1", "copy-to-clipboard": "^3.3.3", "flexsearch": "0.8.212", "github-slugger": "^2.0.0", "hast-util-heading-rank": "^3.0.0", "hast-util-to-jsx-runtime": "^2.3.6", "lodash-es": "^4.17.23", "mdast-util-mdx": "^3.0.0", "mdast-util-mdxjs-esm": "^2.0.1", "medium-zoom": "1.1.0", "nprogress": "^0.2.0", "picocolors": "^1.1.1", "react": "^19.2.4", "react-dom": "^19.2.4", "react-lazy-with-preload": "^2.2.1", "react-reconciler": "0.33.0", "react-router-dom": "^7.13.0", "rehype-external-links": "^3.0.0", "rehype-raw": "^7.0.0", "remark-gfm": "^4.0.1", "remark-mdx": "^3.1.1", "remark-parse": "^11.0.0", "remark-stringify": "^11.0.0", "scroll-into-view-if-needed": "^3.1.0", "shiki": "^3.21.0", "tinyglobby": "^0.2.15", "tinypool": "^1.1.1", "unified": "^11.0.5", "unist-util-remove": "^4.0.0", "unist-util-visit": "^5.0.0", "unist-util-visit-children": "^3.0.0" }, "bin": { "rspress": "bin/rspress.js" } }, "sha512-a+JJFiALqMxGJBqR38/lkN6tas42UF4jRIhu6RilC/3DdqpfqR8j6jjQFOmqoNKo6ZGXW2W+i1Pscn6drvoG3w=="],
+
+    "@rspress/plugin-llms": ["@rspress/plugin-llms@2.0.3", "", { "dependencies": { "remark-mdx": "^3.1.1", "remark-parse": "^11.0.0", "remark-stringify": "^11.0.0", "unified": "^11.0.5", "unist-util-visit": "^5.0.0" }, "peerDependencies": { "@rspress/core": "^2.0.3" } }, "sha512-0FHoiz32xnBe2laQPmRIEYbxzu8FKIyKfk5gYBBm7N9OOa+EClG6w7OLTigXMn76zJa+Y9tr4ZbFdBHjRww+FA=="],
 
     "@rspress/shared": ["@rspress/shared@2.0.3", "", { "dependencies": { "@rsbuild/core": "2.0.0-beta.3", "@shikijs/rehype": "^3.21.0", "gray-matter": "4.0.3", "lodash-es": "^4.17.23", "unified": "^11.0.5" } }, "sha512-yI9G4P165fSsmm6QoYTUrdgUis1aFnDh04GcM4SQIpL3itvEZhGtItgoeGkX9EWbnEjhriwI8mTqDDJIp+vrGA=="],
 

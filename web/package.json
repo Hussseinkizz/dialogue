@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "rspress build",
+    "postbuild": "cp doc_build/llms.txt doc_build/llms-full.txt docs/public/",
     "check": "biome check --write",
     "dev": "rspress dev",
     "format": "biome format --write",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
+    "@rspress/plugin-llms": "^2.0.3",
     "@types/node": "^22.8.1",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",

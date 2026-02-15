@@ -1,0 +1,37 @@
+[
+  {
+    "type": "file",
+    "name": "index",
+    "label": "Overview"
+  },
+  {
+    "type": "file",
+    "name": "events",
+    "label": "Events"
+  },
+  {
+    "type": "file",
+    "name": "rooms",
+    "label": "Rooms"
+  },
+  {
+    "type": "file",
+    "name": "dialogue-config",
+    "label": "Dialogue Config"
+  },
+  {
+    "type": "file",
+    "name": "hooks",
+    "label": "Hooks"
+  },
+  {
+    "type": "file",
+    "name": "authentication",
+    "label": "Authentication"
+  },
+  {
+    "type": "file",
+    "name": "types",
+    "label": "Types"
+  }
+]
