@@ -1,0 +1,12 @@
+[
+  {
+    "type": "file",
+    "name": "backend-api",
+    "label": "Backend API"
+  },
+  {
+    "type": "file",
+    "name": "client-api",
+    "label": "Client API"
+  }
+]

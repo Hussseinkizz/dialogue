@@ -1,0 +1,17 @@
+[
+  {
+    "type": "file",
+    "name": "getting-started",
+    "label": "Getting Started"
+  },
+  {
+    "type": "file",
+    "name": "configuration",
+    "label": "Configuration"
+  },
+  {
+    "type": "file",
+    "name": "architecture",
+    "label": "Architecture"
+  }
+]

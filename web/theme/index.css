@@ -1,0 +1,17 @@
+:root {
+  /* Green brand colors for Dialogue */
+  --rp-c-brand: #22c55e;
+  --rp-c-brand-light: #4ade80;
+  --rp-c-brand-lighter: #bbf7d0;
+  --rp-c-brand-dark: #16a34a;
+  --rp-c-brand-darker: #15803d;
+  --rp-c-brand-tint: rgba(34, 197, 94, 0.16);
+}
+
+/* Add chat icon before navbar logo text */
+.rspress-nav-logo-text::before {
+  content: '💬';
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+  vertical-align: middle;
+}
