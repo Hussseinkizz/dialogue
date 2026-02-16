@@ -1,6 +1,6 @@
 {
   "name": "dialogue-ts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An event-based realtime communication library based on Socket.IO, Hono, and Bun.",
   "type": "module",
   "main": "./dist/src/index.cjs",
