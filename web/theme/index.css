@@ -10,7 +10,7 @@
 
 /* Add chat icon before navbar logo text */
 .rspress-nav-logo-text::before {
-  content: '💬';
+  content: "💬";
   margin-right: 0.5rem;
   font-size: 1.5rem;
   vertical-align: middle;

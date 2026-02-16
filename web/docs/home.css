@@ -34,11 +34,16 @@
 }
 
 .highlight {
-  background: linear-gradient(135deg, var(--rp-c-brand) 0%, var(--rp-c-brand-light) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--rp-c-brand) 0%,
+    var(--rp-c-brand-light) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.3)) drop-shadow(0 0 20px rgba(34, 197, 94, 0.15));
+  filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.3))
+    drop-shadow(0 0 20px rgba(34, 197, 94, 0.15));
 }
 
 .hero-tagline {
@@ -321,7 +326,7 @@ html:not(.dark) .code-wrapper {
   background-color: rgba(0, 0, 0, 0.3);
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-size: 0.9em;
   color: var(--rp-c-brand-light);
   border: 1px solid var(--rp-c-divider);

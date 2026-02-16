@@ -127,9 +127,9 @@ describe("isEventAllowed", () => {
   const Message = defineEvent("message");
   const Typing = defineEvent("typing");
 
-  it("allows any event when events array is empty", () => {
-    expect(isEventAllowed("anything", [])).toBe(true);
-    expect(isEventAllowed("random", [])).toBe(true);
+  it("blocks all events when events array is empty", () => {
+    expect(isEventAllowed("anything", [])).toBe(false);
+    expect(isEventAllowed("random", [])).toBe(false);
   });
 
   it("allows events that are in the list", () => {

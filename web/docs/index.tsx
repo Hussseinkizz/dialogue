@@ -1,21 +1,21 @@
-import './home.css';
+import "./home.css";
+import { useState } from "react";
+import { BiSolidLock } from "react-icons/bi";
+import { GiHook } from "react-icons/gi";
 import {
   IoChatbubblesSharp,
-  IoCopyOutline,
   IoCheckmark,
-} from 'react-icons/io5';
-import { MdGpsFixed } from 'react-icons/md';
-import { BiSolidLock } from 'react-icons/bi';
-import { RiPaletteFill } from 'react-icons/ri';
-import { codeToHtml } from 'shiki';
-import { useState } from 'react';
-import { GiHook } from 'react-icons/gi';
+  IoCopyOutline,
+} from "react-icons/io5";
+import { MdGpsFixed } from "react-icons/md";
+import { RiPaletteFill } from "react-icons/ri";
+import { codeToHtml } from "shiki";
 
-const BASE_PATH = '/dialogue';
+const BASE_PATH = "/dialogue";
 const withBase = (path: string) => `${BASE_PATH}${path}`;
 
 export const frontmatter = {
-  pageType: 'custom',
+  pageType: "custom",
 };
 
 // Client-side copy button component
@@ -37,10 +37,10 @@ const CopyButton = ({ code }: { code: string }) => {
 
 export const Home = async () => {
   // Generate syntax-highlighted code snippets using Shiki
-  const installCodeRaw = 'bun add dialogue-ts zod';
+  const installCodeRaw = "bun add dialogue-ts zod";
   const installCode = await codeToHtml(installCodeRaw, {
-    lang: 'bash',
-    theme: 'vitesse-dark',
+    lang: "bash",
+    theme: "vitesse-dark",
   });
 
   const serverCodeRaw = `// server.ts
@@ -66,8 +66,8 @@ const dialogue = createDialogue({
 await dialogue.start();`;
 
   const serverCode = await codeToHtml(serverCodeRaw, {
-    lang: 'typescript',
-    theme: 'vitesse-dark',
+    lang: "typescript",
+    theme: "vitesse-dark",
   });
 
   const clientCodeRaw = `// client.ts
@@ -92,8 +92,8 @@ chat.trigger("message", {
 });`;
 
   const clientCode = await codeToHtml(clientCodeRaw, {
-    lang: 'typescript',
-    theme: 'vitesse-dark',
+    lang: "typescript",
+    theme: "vitesse-dark",
   });
 
   return (
@@ -112,14 +112,18 @@ chat.trigger("message", {
             and Bun
           </p>
           <div className="hero-actions">
-            <a href={withBase('/guide/start/getting-started')} className="btn btn-primary">
+            <a
+              className="btn btn-primary"
+              href={withBase("/guide/start/getting-started")}
+            >
               Get Started
             </a>
             <a
-              href="https://github.com/Hussseinkizz/dialogue"
               className="btn btn-secondary"
+              href="https://github.com/Hussseinkizz/dialogue"
+              rel="noopener noreferrer"
               target="_blank"
-              rel="noopener noreferrer">
+            >
               View on GitHub
             </a>
           </div>
@@ -132,6 +136,7 @@ chat.trigger("message", {
         <div className="code-wrapper">
           <div
             className="code-block"
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki-generated HTML from trusted static code
             dangerouslySetInnerHTML={{ __html: installCode }}
           />
           <CopyButton code={installCodeRaw} />
@@ -147,6 +152,7 @@ chat.trigger("message", {
             <div className="code-wrapper">
               <div
                 className="code-block"
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki-generated HTML from trusted static code
                 dangerouslySetInnerHTML={{ __html: serverCode }}
               />
               <CopyButton code={serverCodeRaw} />
@@ -157,6 +163,7 @@ chat.trigger("message", {
             <div className="code-wrapper">
               <div
                 className="code-block"
+                // biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki-generated HTML from trusted static code
                 dangerouslySetInnerHTML={{ __html: clientCode }}
               />
               <CopyButton code={clientCodeRaw} />
@@ -220,50 +227,62 @@ chat.trigger("message", {
             <h3>Real-time Chat Applications</h3>
             <p>
               Define a <code>Message</code> event with Zod schema for text
-              validation. Use <code>user:joined</code> and{' '}
-              <code>user:left</code> events for presence tracking. Add a{' '}
+              validation. Use <code>user:joined</code> and{" "}
+              <code>user:left</code> events for presence tracking. Add a{" "}
               <code>typing</code> event to show when users are composing
               messages. All events are type-safe and automatically validated.
             </p>
-            <a href={withBase('/guide/examples/chat-application')} className="use-case-link">
+            <a
+              className="use-case-link"
+              href={withBase("/guide/examples/chat-application")}
+            >
               View chat examples →
             </a>
           </div>
           <div className="use-case">
             <h3>Live Dashboards & Analytics</h3>
             <p>
-              Create events like <code>metrics:update</code> and{' '}
+              Create events like <code>metrics:update</code> and{" "}
               <code>data:refresh</code> with schemas that enforce data
               structure. Use Dialogue's room system to organize different
               dashboard views. Type inference ensures your frontend receives
               correctly-typed data from the server.
             </p>
-            <a href={withBase('/guide/examples/live-dashboard')} className="use-case-link">
+            <a
+              className="use-case-link"
+              href={withBase("/guide/examples/live-dashboard")}
+            >
               View dashboard examples →
             </a>
           </div>
           <div className="use-case">
             <h3>Collaborative Tools</h3>
             <p>
-              Define <code>cursor:move</code>, <code>document:edit</code>, and{' '}
+              Define <code>cursor:move</code>, <code>document:edit</code>, and{" "}
               <code>selection:change</code> events to track user interactions.
               Dialogue's event system handles real-time broadcasting to all
               participants in a room while Zod validates each action's payload.
             </p>
-            <a href={withBase('/guide/examples/collaborative-editing')} className="use-case-link">
+            <a
+              className="use-case-link"
+              href={withBase("/guide/examples/collaborative-editing")}
+            >
               View collaboration examples →
             </a>
           </div>
           <div className="use-case">
             <h3>Gaming & Multiplayer</h3>
             <p>
-              Set up events like <code>player:move</code>,{' '}
+              Set up events like <code>player:move</code>,{" "}
               <code>game:action</code>, and <code>lobby:join</code> with strict
               schemas. Use rooms for game lobbies and matches. Dialogue
               validates player inputs server-side, preventing cheating and
               ensuring game state consistency.
             </p>
-            <a href={withBase('/guide/examples/multiplayer-game')} className="use-case-link">
+            <a
+              className="use-case-link"
+              href={withBase("/guide/examples/multiplayer-game")}
+            >
               View gaming examples →
             </a>
           </div>
@@ -333,11 +352,12 @@ chat.trigger("message", {
       {/* Footer Section */}
       <footer className="home-footer">
         <p>
-          Built with love by{' '}
+          Built with love by{" "}
           <a
             href="https://github.com/Hussseinkizz"
+            rel="noopener noreferrer"
             target="_blank"
-            rel="noopener noreferrer">
+          >
             Hussein Kizz
           </a>
         </p>

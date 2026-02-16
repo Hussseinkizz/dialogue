@@ -65,6 +65,114 @@ export function createRoom(
   const eventHandlers = new Map<string, Set<EventHandler>>();
 
   /** Handles post-broadcast work: history storage, hooks, and server-side handlers */
+  /**
+   * Validates event is allowed and data is valid
+   */
+  function validateEvent<T>(
+    event: EventDefinition<T>,
+    data: T
+  ): Result<T, string> {
+    if (!isEventAllowed(event.name, config.events)) {
+      const errorMsg = `Event '${event.name}' is not allowed in room '${id}'`;
+      logger.warn({
+        message: errorMsg,
+        atFunction: "room.trigger",
+        data: { eventName: event.name, roomId: id },
+      });
+      return Err(errorMsg);
+    }
+
+    const eventDef = getEventByName(event.name, config.events) ?? event;
+    const validation = validateEventData(eventDef, data);
+
+    if (validation.isErr) {
+      logger.warn({
+        message: validation.error,
+        atFunction: "room.trigger",
+        data: {
+          eventName: event.name,
+          roomId: id,
+          validationError: validation.error,
+        },
+      });
+      return Err(validation.error);
+    }
+
+    return Ok(validation.value as T);
+  }
+
+  /**
+   * Runs beforeEach hook if configured
+   */
+  function runBeforeEachHook<T>(
+    event: EventDefinition<T>,
+    message: EventMessage<T>
+  ): Result<EventMessage, string> {
+    if (!(hooks?.events?.beforeEach && getContext)) {
+      return Ok(message);
+    }
+
+    const context = getContext();
+    const hookResult = hooks.events.beforeEach({
+      context,
+      roomId: id,
+      message,
+      from: message.from,
+    });
+
+    if (hookResult.isErr) {
+      logger.debug({
+        message: `Event '${event.name}' blocked by beforeEach: ${hookResult.error}`,
+        atFunction: "room.trigger.beforeEach",
+        data: {
+          eventName: event.name,
+          roomId: id,
+          reason: hookResult.error,
+        },
+      });
+      return Err(hookResult.error);
+    }
+
+    return Ok(hookResult.value);
+  }
+
+  /**
+   * Broadcasts message to subscribed participants
+   */
+  function broadcastToParticipants(
+    eventName: string,
+    message: EventMessage
+  ): number {
+    let recipientCount = 0;
+    for (const [, participant] of participants) {
+      if (isParticipantSubscribed(participant, id, eventName)) {
+        participant.socket.emit("dialogue:event", message);
+        recipientCount++;
+      }
+    }
+    return recipientCount;
+  }
+
+  /**
+   * Runs afterEach hook if configured
+   */
+  function runAfterEachHook(
+    message: EventMessage,
+    recipientCount: number
+  ): void {
+    if (!(hooks?.events?.afterEach && getContext)) {
+      return;
+    }
+
+    const context = getContext();
+    hooks.events.afterEach({
+      context,
+      roomId: id,
+      message,
+      recipientCount,
+    });
+  }
+
   function handlePostBroadcast(eventName: string, message: EventMessage): void {
     // Store in history if event has history enabled
     const eventDef = getEventByName(eventName, config.events);
@@ -113,29 +221,8 @@ export function createRoom(
       from?: string,
       meta?: Record<string, unknown>
     ): Result<void, string> {
-      if (!isEventAllowed(event.name, config.events)) {
-        const errorMsg = `Event '${event.name}' is not allowed in room '${id}'`;
-        logger.warn({
-          message: errorMsg,
-          atFunction: "room.trigger",
-          data: { eventName: event.name, roomId: id },
-        });
-        return Err(errorMsg);
-      }
-
-      const eventDef = getEventByName(event.name, config.events) ?? event;
-      const validation = validateEventData(eventDef, data);
-
+      const validation = validateEvent(event, data);
       if (validation.isErr) {
-        logger.warn({
-          message: validation.error,
-          atFunction: "room.trigger",
-          data: {
-            eventName: event.name,
-            roomId: id,
-            validationError: validation.error,
-          },
-        });
         return Err(validation.error);
       }
 
@@ -148,54 +235,16 @@ export function createRoom(
         ...(meta && { meta }),
       };
 
-      // Run beforeEach hook — can block or transform the message
-      let finalMessage: EventMessage = message;
-      if (hooks?.events?.beforeEach && getContext) {
-        const context = getContext();
-        const hookResult = hooks.events.beforeEach({
-          context,
-          roomId: id,
-          message,
-          from: message.from,
-        });
-
-        if (hookResult.isErr) {
-          logger.debug({
-            message: `Event '${event.name}' blocked by beforeEach: ${hookResult.error}`,
-            atFunction: "room.trigger.beforeEach",
-            data: {
-              eventName: event.name,
-              roomId: id,
-              reason: hookResult.error,
-            },
-          });
-          return Err(hookResult.error);
-        }
-
-        finalMessage = hookResult.value;
+      const hookResult = runBeforeEachHook(event, message);
+      if (hookResult.isErr) {
+        return Err(hookResult.error);
       }
 
-      // Emit only to participants subscribed to this event (or wildcard)
-      let recipientCount = 0;
-      for (const [, participant] of participants) {
-        if (isParticipantSubscribed(participant, id, event.name)) {
-          participant.socket.emit("dialogue:event", finalMessage);
-          recipientCount++;
-        }
-      }
+      const finalMessage = hookResult.value;
+      const recipientCount = broadcastToParticipants(event.name, finalMessage);
 
       handlePostBroadcast(event.name, finalMessage);
-
-      // Run afterEach hook — fire-and-forget for side-effects
-      if (hooks?.events?.afterEach && getContext) {
-        const context = getContext();
-        hooks.events.afterEach({
-          context,
-          roomId: id,
-          message: finalMessage,
-          recipientCount,
-        });
-      }
+      runAfterEachHook(finalMessage, recipientCount);
 
       return Ok(undefined);
     },
