@@ -963,4 +963,56 @@ const dialogue = createDialogue({
   logger, // Suppress all logging
 });
 ```
+
+### 6.5 detectRuntime()
+
+Detects the current JavaScript runtime by checking for Bun globals. Falls back to `"node"` if Bun is not detected.
+
+**Signature:**
+
+```typescript
+function detectRuntime(): Runtime
+```
+
+**Returns:** `"bun"` if `globalThis.Bun` exists, otherwise `"node"`
+
+**Example:**
+
+```typescript
+import { detectRuntime } from "dialogue-ts";
+
+const runtime = detectRuntime();
+console.log(`Running on: ${runtime}`); // "bun" or "node"
+```
+
+### 6.6 createRuntimeAdapter()
+
+Creates the appropriate runtime adapter based on the specified runtime. Uses auto-detection if no runtime is specified.
+
+**Signature:**
+
+```typescript
+function createRuntimeAdapter(runtime?: Runtime): RuntimeAdapter
+```
+
+**Parameters:**
+
+- **`runtime`**: Explicit runtime choice (`"bun"` or `"node"`). Auto-detected if omitted.
+
+**Returns:** A `RuntimeAdapter` for the target runtime
+
+**Example:**
+
+```typescript
+import { createRuntimeAdapter } from "dialogue-ts";
+
+// Auto-detect runtime
+const adapter = createRuntimeAdapter();
+
+// Explicit runtime
+const bunAdapter = createRuntimeAdapter("bun");
+const nodeAdapter = createRuntimeAdapter("node");
+```
+
+**Note:** You typically don't need to call this directly. `createDialogue()` uses it internally based on the `runtime` config option. It's exported for advanced use cases where you need manual control over the adapter lifecycle.
 *This documentation reflects the current implementation and is subject to evolution. Contributions and feedback are welcome.*

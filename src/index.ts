@@ -17,7 +17,13 @@
  * })
  */
 
+export type {
+  Runtime,
+  RuntimeAdapter,
+  RuntimeStartOptions,
+} from "./adapters/index.ts";
 // biome-ignore lint/performance/noBarrelFile: Intentional public API barrel export
+export { createRuntimeAdapter, detectRuntime } from "./adapters/index.ts";
 export { createDialogue } from "./create-dialogue.ts";
 export {
   defineEvent,

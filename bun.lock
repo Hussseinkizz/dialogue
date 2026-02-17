@@ -5,13 +5,13 @@
     "": {
       "name": "dialogue",
       "dependencies": {
+        "@hono/node-server": "^1.19.9",
         "@socket.io/bun-engine": "^0.1.0",
         "hono": "^4.11.9",
         "nanoid": "^5.1.6",
         "slang-ts": "^0.0.7",
         "socket.io": "^4.8.3",
         "socket.io-client": "^4.8.3",
-        "zod": "^4.3.6",
       },
       "devDependencies": {
         "@biomejs/biome": "2.3.13",
@@ -23,6 +23,7 @@
       },
       "peerDependencies": {
         "typescript": "^5",
+        "zod": "^3.0.0 || ^4.0.0",
       },
     },
   },
@@ -100,6 +101,8 @@
     "@esbuild/win32-ia32": ["@esbuild/win32-ia32@0.27.3", "", { "os": "win32", "cpu": "ia32" }, "sha512-QLKSFeXNS8+tHW7tZpMtjlNb7HKau0QDpwm49u0vUp9y1WOF+PEzkU84y9GqYaAVW8aH8f3GcBck26jh54cX4Q=="],
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.27.3", "", { "os": "win32", "cpu": "x64" }, "sha512-4uJGhsxuptu3OcpVAzli+/gWusVGwZZHTlS63hh++ehExkVT8SgiEf7/uC/PclrPPkLhZqGgCTjd0VWLo6xMqA=="],
+
+    "@hono/node-server": ["@hono/node-server@1.19.9", "", { "peerDependencies": { "hono": "^4" } }, "sha512-vHL6w3ecZsky+8P5MD+eFfaGTyCeOHUIFYMGpQGbrBTSmNNoxv0if69rEZ5giu36weC5saFuznL411gRX7bJDw=="],
 
     "@isaacs/balanced-match": ["@isaacs/balanced-match@4.0.1", "", {}, "sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ=="],
 

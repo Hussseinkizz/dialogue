@@ -1,7 +1,7 @@
-import { Server as BunEngine } from "@socket.io/bun-engine";
 import type { Hono } from "hono";
 import { cors as honoCors } from "hono/cors";
 import { Server } from "socket.io";
+import type { RuntimeAdapter } from "./adapters/types.ts";
 import {
   createConnectedClient,
   extractUserFromSocket,
@@ -100,52 +100,6 @@ function buildHonoCorsOptions(cors: CorsConfig | boolean | undefined): {
 }
 
 /**
- * Adds CORS headers to a response based on the request origin and config.
- */
-function addCorsHeaders(
-  response: Response,
-  request: Request,
-  corsConfig: CorsConfig | boolean | undefined
-): Response {
-  const origin = request.headers.get("Origin");
-  if (!origin) {
-    return response;
-  }
-
-  const headers = new Headers(response.headers);
-
-  // Determine allowed origin
-  if (corsConfig === undefined || corsConfig === true) {
-    headers.set("Access-Control-Allow-Origin", origin);
-    headers.set("Access-Control-Allow-Credentials", "true");
-  } else if (corsConfig === false) {
-    return response;
-  } else {
-    const allowedOrigin = corsConfig.origin;
-    if (allowedOrigin === true) {
-      headers.set("Access-Control-Allow-Origin", origin);
-    } else if (typeof allowedOrigin === "string" && allowedOrigin === origin) {
-      headers.set("Access-Control-Allow-Origin", origin);
-    } else if (Array.isArray(allowedOrigin) && allowedOrigin.includes(origin)) {
-      headers.set("Access-Control-Allow-Origin", origin);
-    }
-
-    if (corsConfig.credentials !== false) {
-      headers.set("Access-Control-Allow-Credentials", "true");
-    }
-  }
-
-  headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  headers.set("Access-Control-Allow-Headers", "Content-Type");
-
-  return new Response(response.body, {
-    status: response.status,
-    statusText: response.statusText,
-    headers,
-  });
-}
-
-/**
  * Sends history to a client when they join a room (if syncHistoryOnJoin is enabled)
  */
 function sendHistoryOnJoin(
@@ -202,20 +156,21 @@ function createDialogueContext(
 
 /**
  * Sets up the Socket.IO server and wires up all handlers.
- * Handles connection lifecycle and message routing.
+ * Runtime-agnostic — delegates HTTP server and engine binding to the provided adapter.
  *
  * @param app - Hono app instance
  * @param config - Dialogue configuration
+ * @param adapter - Runtime adapter (bun or node) for HTTP server and engine binding
  * @param historyManager - Optional history manager for event storage
  * @returns Server components and lifecycle methods
  */
 export function setupServer(
   app: Hono,
   config: DialogueConfig,
+  adapter: RuntimeAdapter,
   historyManager?: HistoryManager
 ): {
   io: Server;
-  engine: BunEngine;
   roomManager: RoomManagerInstance;
   start: () => Promise<void>;
   stop: () => Promise<void>;
@@ -242,9 +197,9 @@ export function setupServer(
   app.use("*", honoCors(honoCorsOptions));
 
   const io = new Server({ cors: corsOptions });
-  const engine = new BunEngine();
 
-  io.bind(engine);
+  // Delegate engine binding to the runtime adapter
+  adapter.bind(io);
 
   // Create a helper function to build context - will be passed to roomManager
   const getContextForHooks = (): DialogueContext => {
@@ -744,59 +699,23 @@ export function setupServer(
     });
   });
 
-  const { websocket } = engine.handler();
-
   const port = config.port ?? 3000;
-
-  let bunServer: ReturnType<typeof Bun.serve> | null = null;
 
   return {
     io,
-    engine,
     roomManager,
 
     start(): Promise<void> {
-      bunServer = Bun.serve({
+      return adapter.start({
         port,
-        idleTimeout: 30,
-
-        async fetch(req: Request, server) {
-          const url = new URL(req.url);
-
-          if (url.pathname.startsWith("/socket.io")) {
-            // Handle OPTIONS preflight requests
-            if (req.method === "OPTIONS") {
-              return addCorsHeaders(
-                new Response(null, { status: 204 }),
-                req,
-                config.cors
-              );
-            }
-
-            const response = await engine.handleRequest(req, server);
-            return addCorsHeaders(response, req, config.cors);
-          }
-
-          return app.fetch(req);
-        },
-
-        websocket,
+        app,
+        io,
+        corsConfig: config.cors,
+        logger,
       });
-
-      logger.info({
-        message: `Server running on http://localhost:${port}`,
-        atFunction: "setupServer.start",
-        data: { port },
-      });
-      return Promise.resolve();
     },
 
     stop(): Promise<void> {
-      if (bunServer) {
-        bunServer.stop();
-        bunServer = null;
-      }
-
       for (const client of connectedClients.values()) {
         client.disconnect();
       }
@@ -804,12 +723,14 @@ export function setupServer(
       userIdToSocketIds.clear();
 
       io.close();
+
       logger.info({
         message: "Server stopped",
         atFunction: "setupServer.stop",
         data: null,
       });
-      return Promise.resolve();
+
+      return adapter.stop();
     },
 
     /**

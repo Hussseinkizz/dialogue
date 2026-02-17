@@ -21,6 +21,9 @@ import type {
   ConnectedClient,
   Room,
   HooksConfig,
+  Runtime,
+  RuntimeAdapter,
+  RuntimeStartOptions,
 } from "./dialogue";
 ```
 
@@ -87,6 +90,50 @@ interface JwtClaims {
   [key: string]: unknown;  // Additional custom claims
 }
 ```
+
+## Runtime Types
+
+### Runtime
+
+```typescript
+type Runtime = "bun" | "node";
+```
+
+Supported runtime environments. Used with the `runtime` config option or returned by `detectRuntime()`.
+
+### RuntimeAdapter
+
+```typescript
+interface RuntimeAdapter {
+  /** The runtime this adapter targets */
+  readonly runtime: Runtime;
+
+  /** Bind the Socket.IO server to the runtime-specific engine */
+  bind(io: Server): void;
+
+  /** Start the HTTP server on the given port */
+  start(options: RuntimeStartOptions): Promise<void>;
+
+  /** Stop the HTTP server and clean up resources */
+  stop(): Promise<void>;
+}
+```
+
+Abstracts the HTTP server and Socket.IO engine binding for different runtimes. You typically don't interact with this directly — `createDialogue()` creates the appropriate adapter based on the `runtime` config option.
+
+### RuntimeStartOptions
+
+```typescript
+interface RuntimeStartOptions {
+  port: number;
+  app: Hono;
+  io: Server;
+  corsConfig: CorsConfig | boolean | undefined;
+  logger: Logger;
+}
+```
+
+Options passed internally to `RuntimeAdapter.start()`. These are assembled by the Dialogue server setup and not typically constructed manually.
 
 ## See Also
 

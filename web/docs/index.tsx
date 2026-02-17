@@ -37,8 +37,8 @@ const CopyButton = ({ code }: { code: string }) => {
 
 export const Home = async () => {
   // Generate syntax-highlighted code snippets using Shiki
-  const installCodeRaw = "bun add dialogue-ts zod";
-  const installCode = await codeToHtml(installCodeRaw, {
+  const bunInstallRaw = "bun add dialogue-ts zod";
+  const bunInstallCode = await codeToHtml(bunInstallRaw, {
     lang: "bash",
     theme: "vitesse-dark",
   });
@@ -108,8 +108,8 @@ chat.trigger("message", {
             <span className="highlight">Dialogue</span>
           </h1>
           <p className="hero-tagline">
-            Event-based realtime communication library built on Socket.IO, Hono,
-            and Bun
+            Event-based realtime communication library built on Socket.IO and
+            Hono for Bun and Node.js
           </p>
           <div className="hero-actions">
             <a
@@ -137,10 +137,13 @@ chat.trigger("message", {
           <div
             className="code-block"
             // biome-ignore lint/security/noDangerouslySetInnerHtml: Shiki-generated HTML from trusted static code
-            dangerouslySetInnerHTML={{ __html: installCode }}
+            dangerouslySetInnerHTML={{ __html: bunInstallCode }}
           />
-          <CopyButton code={installCodeRaw} />
+          <CopyButton code={bunInstallRaw} />
         </div>
+        <p className="install-alt">
+          or with npm: <code>npm install dialogue-ts zod</code>
+        </p>
       </section>
 
       {/* Quick Start Section */}

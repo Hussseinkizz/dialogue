@@ -9,7 +9,7 @@ This guide covers installation, basic setup, and your first real-time applicatio
 
 ## 1. Overview
 
-Dialogue is an event-based realtime communication library built on Socket.IO, Hono, and Bun. It provides a simple, type-safe API for building real-time applications like chat, notifications, live dashboards, multiplayer games, and IoT systems.
+Dialogue is an event-based realtime communication library built on Socket.IO and Hono. It supports both **Bun** and **Node.js** runtimes, auto-detecting which to use. It provides a simple, type-safe API for building real-time applications like chat, notifications, live dashboards, multiplayer games, and IoT systems.
 
 ### 1.1 Key Features
 
@@ -23,11 +23,29 @@ Dialogue is an event-based realtime communication library built on Socket.IO, Ho
 
 Install Dialogue and zod:
 
+:::tabs
+
+@tab Bun
+
 ```bash
 bun add dialogue-ts zod
 ```
 
-Dialogue requires Bun runtime for the backend server.
+@tab npm
+
+```bash
+npm install dialogue-ts zod
+```
+
+@tab pnpm
+
+```bash
+pnpm add dialogue-ts zod
+```
+
+:::
+
+Dialogue supports both **Bun** and **Node.js** runtimes. The runtime is auto-detected by default, or you can set it explicitly via the `runtime` config option.
 
 ## 3. Quick Start
 
@@ -109,6 +127,14 @@ Run with Bun:
 ```bash
 bun run server.ts
 ```
+
+Or with Node.js (using tsx or ts-node):
+
+```bash
+npx tsx server.ts
+```
+
+Dialogue auto-detects the runtime. To set it explicitly, pass `runtime: "bun"` or `runtime: "node"` in your `createDialogue()` config. See the [Configuration Guide](/guide/api/configuration/dialogue-config) for details.
 
 ### 3.3 Trigger Events from Backend
 

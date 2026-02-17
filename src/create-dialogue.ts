@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { Err, type Result } from "slang-ts";
+import { createRuntimeAdapter } from "./adapters/index.ts";
 import { createHistoryManager } from "./history.ts";
 import { createDefaultLogger } from "./logger.ts";
 import { setupServer } from "./server.ts";
@@ -67,6 +68,9 @@ export function createDialogue(config: DialogueConfig): Dialogue {
     onLoad: config.hooks?.events?.onLoad,
   });
 
+  // Create the runtime adapter (auto-detects if not specified)
+  const adapter = createRuntimeAdapter(config.runtime);
+
   const {
     io,
     roomManager,
@@ -77,7 +81,7 @@ export function createDialogue(config: DialogueConfig): Dialogue {
     getClientsByUserId,
     getClientRooms: getClientRoomIds,
     isUserInRoom,
-  } = setupServer(app, config, historyManager);
+  } = setupServer(app, config, adapter, historyManager);
 
   const dialogue: Dialogue = {
     app,

@@ -272,6 +272,14 @@ export interface DialogueConfig {
   logger?: Logger;
   /** CORS configuration. Defaults to allowing all origins in development. */
   cors?: CorsConfig | boolean;
+  /**
+   * Runtime to use for the HTTP server and Socket.IO engine.
+   * - "bun": Uses Bun.serve() with @socket.io/bun-engine
+   * - "node": Uses Node.js http.createServer() with Socket.IO's built-in engine
+   *
+   * Auto-detected if not specified (checks for Bun globals, falls back to Node).
+   */
+  runtime?: "bun" | "node";
 }
 
 /**

@@ -68,6 +68,7 @@ const dialogue = createDialogue({
 | **`hooks`** | `HooksConfig` | No | Lifecycle hooks for clients, rooms, and events |
 | **`logger`** | `Logger` | No | Custom logger implementation. Uses console logger if not provided |
 | **`cors`** | `CorsConfig \| boolean` | No | CORS configuration. Defaults to allowing all origins |
+| **`runtime`** | `"bun" \| "node"` | No | Runtime for the HTTP server and Socket.IO engine. Auto-detected if not specified |
 
 ## CORS Configuration
 
@@ -110,6 +111,38 @@ const dialogue = createDialogue({
 | **`origin`** | `string \| string[] \| boolean` | `true` | Allowed origins. Use `true` for all origins |
 | **`methods`** | `string[]` | `["GET", "POST"]` | Allowed HTTP methods |
 | **`credentials`** | `boolean` | `true` | Whether to allow credentials (cookies, auth headers) |
+
+## Runtime Selection
+
+Dialogue supports both **Bun** and **Node.js** runtimes via a runtime adapter pattern. By default, the runtime is auto-detected by checking for `globalThis.Bun`. You can override this with the `runtime` option.
+
+```typescript
+// Auto-detect (default) — uses Bun if available, falls back to Node.js
+const dialogue = createDialogue({
+  rooms: { /* ... */ },
+});
+
+// Explicitly use Bun
+const dialogue = createDialogue({
+  rooms: { /* ... */ },
+  runtime: "bun",
+});
+
+// Explicitly use Node.js
+const dialogue = createDialogue({
+  rooms: { /* ... */ },
+  runtime: "node",
+});
+```
+
+**Runtime behavior:**
+
+| Runtime | HTTP Server | Socket.IO Engine | Notes |
+|---------|-------------|------------------|-------|
+| `"bun"` | `Bun.serve()` | `@socket.io/bun-engine` | Native Bun performance |
+| `"node"` | `http.createServer()` | Built-in `engine.io` | Uses `@hono/node-server` to bridge Hono's fetch API |
+
+Both runtimes produce identical behavior from the client's perspective. The adapter pattern ensures all Dialogue features (rooms, events, hooks, CORS) work the same regardless of runtime.
 
 ## DialogueContext
 

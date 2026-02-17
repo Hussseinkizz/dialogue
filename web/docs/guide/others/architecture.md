@@ -9,7 +9,7 @@ This document describes the internal architecture, design decisions, and compone
 
 ## 1. Overview
 
-Dialogue is an event-based realtime communication library built on Socket.IO and Hono for Bun/Node environments. The architecture prioritizes simplicity, type safety, and predictable behavior over flexibility.
+Dialogue is an event-based realtime communication library built on Socket.IO and Hono, supporting both Bun and Node.js runtimes. The architecture prioritizes simplicity, type safety, and predictable behavior over flexibility.
 
 ### 1.1 Core Philosophy
 
@@ -21,11 +21,13 @@ Dialogue is an event-based realtime communication library built on Socket.IO and
 
 ### 1.2 Technology Stack
 
-- **Bun**: JavaScript runtime and bundler
+- **Bun / Node.js**: Supported JavaScript runtimes (auto-detected)
 - **Socket.IO**: WebSocket abstraction with fallbacks
 - **Hono**: Lightweight HTTP framework
 - **Zod**: Runtime schema validation
 - **slang-ts**: Result pattern utilities (`Ok`, `Err`, `Result`)
+- **@hono/node-server**: Bridges Hono's fetch API to Node.js `http.createServer()` (Node runtime only)
+- **@socket.io/bun-engine**: Socket.IO engine adapter for Bun (Bun runtime only)
 
 ## 2. System Architecture
 
@@ -75,9 +77,14 @@ dialogue/
   define-event.ts    # Event definition factory with Zod validation
   room.ts            # Room creation and room manager
   client-handler.ts  # Connected client wrapper
-  server.ts          # Socket.IO + Hono + Bun server setup
+  server.ts          # Socket.IO + Hono server setup (runtime-agnostic)
   create-dialogue.ts # Main factory function
   index.ts           # Barrel exports
+  adapters/
+    types.ts         # RuntimeAdapter interface, Runtime type
+    bun-adapter.ts   # Bun.serve() + @socket.io/bun-engine
+    node-adapter.ts  # http.createServer() + @hono/node-server
+    index.ts         # detectRuntime() + createRuntimeAdapter()
 ```
 
 ### 3.2 Initialization Flow
@@ -89,13 +96,19 @@ When `createDialogue(config)` is called:
    |
    +--> Create or use existing Hono app
    |
-   +--> setupServer(app, config)
+   +--> createRuntimeAdapter(config.runtime)
+   |    |
+   |    +--> detectRuntime() if not specified
+   |    |    (checks globalThis.Bun, falls back to "node")
+   |    |
+   |    +--> Return BunAdapter or NodeAdapter
+   |
+   +--> setupServer(app, config, adapter)
         |
         +--> Create Socket.IO server
         |
-        +--> Create BunEngine adapter
-        |
-        +--> io.bind(engine)
+        +--> adapter.bind(io)
+        |    (Bun: BunEngine, Node: deferred to start)
         |
         +--> createRoomManager(io)
         |    |
@@ -419,6 +432,27 @@ rooms: {
 - Larger bundle size
 - Additional protocol overhead
 - Less control over low-level behavior
+
+### 6.6 Why a Runtime Adapter Pattern?
+
+**Problem**: Dialogue was originally hard-coupled to Bun via `Bun.serve()` and `@socket.io/bun-engine`. This prevented usage with Node.js.
+
+**Solution**: A `RuntimeAdapter` interface that abstracts the three runtime-specific touch points:
+
+1. **Engine binding** — Bun needs `@socket.io/bun-engine`, Node uses Socket.IO's built-in `engine.io`
+2. **HTTP server startup** — Bun uses `Bun.serve()`, Node uses `http.createServer()` with `@hono/node-server`
+3. **Server shutdown** — Each runtime has its own cleanup mechanism
+
+```typescript
+interface RuntimeAdapter {
+  readonly runtime: Runtime;
+  bind(io: Server): void;
+  start(options: RuntimeStartOptions): Promise<void>;
+  stop(): Promise<void>;
+}
+```
+
+The adapter is selected automatically via `detectRuntime()` (which checks `globalThis.Bun`) or explicitly via the `runtime` config option. All other Dialogue code (rooms, events, hooks, client handling) is runtime-agnostic.
 
 ## 7. Data Flow Diagrams
 
